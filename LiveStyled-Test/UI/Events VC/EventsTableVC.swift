@@ -38,6 +38,7 @@ class EventsTableVC: UITableViewController {
         // Do any additional setup after loading the view.
         
         setupTableView()
+        setupRefreshControl()
     }
     
     //MARK:- View Setup
@@ -45,19 +46,24 @@ class EventsTableVC: UITableViewController {
         tableView.register(EventTableViewCell.self, forCellReuseIdentifier: EventTableViewCell.identifier)
     }
     
-    //MARK:- IBAction Methods
-    @IBAction private func downloadButtonPressed(_ sender: UIBarButtonItem) {
-        viewModel.downloadAllEvents()
+    private func setupRefreshControl() {
+        refreshControl = UIRefreshControl()
+        refreshControl?.attributedTitle = NSAttributedString(string: "Pull to Download Events")
+        refreshControl?.addTarget(self, action: #selector(refresh), for: .valueChanged)
     }
     
+    //MARK:- IBAction Methods
     @objc private func favoriteButtonPressed(_ button: FavoriteButton) {
         do {
             let favourited = !button.isOn
             try viewModel.changedFavourited(at: IndexPath(row: button.tag, section: 0), favourited: favourited)
-//            button.isOn.toggle()
         } catch {
             showAlert(title: "Error", message: "Could not save to database, please try again.")
         }
+    }
+    
+    @objc func refresh() {
+        viewModel.downloadAllEvents()
     }
     
     //MARK:- Binding Methods
@@ -66,6 +72,7 @@ class EventsTableVC: UITableViewController {
         .receive(on: RunLoop.main)
         .sink { [unowned self] _ in
             self.tableView?.reloadData()
+            self.refreshControl?.endRefreshing()
         }
         .store(in: &cancellables)
     }

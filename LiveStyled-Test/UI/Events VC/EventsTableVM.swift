@@ -109,17 +109,17 @@ class EventsTableVM {
     }
     
     func image(at indexPath: IndexPath) -> UIImage? {
-        guard let event = model.event(at: indexPath), let imageURL = event.image else {
+        guard let event = model.event(at: indexPath), let imageData = event.imageData else {
+            downloadImage(at: indexPath)
             return nil
         }
-                
-        if let image = model.image(for: imageURL as NSString) {
-            return image
+        
+        guard let image = UIImage(data: imageData) else {
+            downloadImage(at: indexPath)
+            return nil
         }
         
-        downloadImage(at: indexPath)
-        
-        return nil
+        return image
     }
     
     private func downloadImage(at indexPath: IndexPath) {
@@ -145,6 +145,7 @@ class EventsTableVM {
             
             throw NetworkError.failedToParseImageData(data)
         }
+        .receive(on: RunLoop.main)
         .sink(receiveCompletion: { (result) in
             
         }, receiveValue: { [weak self] (image) in
@@ -152,8 +153,7 @@ class EventsTableVM {
                 return
             }
             
-            let key = imageURLString as NSString
-            self.model.add(image: image, for: key)
+            self.model.add(image: image, for: event)
         })
         .store(in: &cancellables)
     }

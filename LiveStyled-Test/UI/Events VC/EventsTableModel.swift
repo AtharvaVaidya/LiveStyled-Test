@@ -12,16 +12,12 @@ import UIKit.UIImage
 import CoreData
 
 class EventsTableModel: NSObject {
-    private let imageCache = NSCache<NSString, UIImage>()
-    
     var modelChangedPublisher = PassthroughSubject<Void, Never>()
     
     private var persistentContainer: NSPersistentContainer = {
         let container = NSPersistentContainer(name: "LiveStyled_Test")
         
-        container.loadPersistentStores { (description, error) in
-            
-        }
+        container.loadPersistentStores { (description, error) in }
         
         return container
     }()
@@ -42,20 +38,14 @@ class EventsTableModel: NSObject {
         return fetchedResultsController
     }()
     
+    private let managedObjectContext = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
+    
     private var cancellables: Set<AnyCancellable> = []
     
     override init() {
         super.init()
         
-        NotificationCenter.default.publisher(for: .NSManagedObjectContextDidSave)
-            .receive(on: RunLoop.main)
-            .map { notification in }
-            .sink(receiveValue: { [weak self] _ in
-//                self?.fetchEventsFromStore()
-                self?.modelChangedPublisher.send()
-            })
-            .store(in: &cancellables)
-        
+        subscribeToDBChanges()
         fetchEventsFromStore()
     }
     
@@ -69,16 +59,32 @@ class EventsTableModel: NSObject {
         return eventObject
     }
     
-    func add(image: UIImage, for key: NSString) {
-        imageCache.setObject(image, forKey: key)
-        modelChangedPublisher.send()
-    }
-    
-    func image(for key: NSString) -> UIImage? {
-        imageCache.object(forKey: key)
+    func add(image: UIImage, for event: EventObject) {
+        event.imageData = image.pngData()
+        
+        do {
+            try update(event: event)
+        } catch {
+            print("Could not save image: \(error.localizedDescription)")
+        }
     }
     
     //MARK:- Core Data Helpers
+    func subscribeToDBChanges() {
+        if let appDelegate = UIApplication.shared.delegate as? AppDelegate {
+            managedObjectContext.persistentStoreCoordinator = appDelegate.persistentContainer.persistentStoreCoordinator
+        }
+        
+        NotificationCenter.default.publisher(for: .NSManagedObjectContextDidSave)
+            .receive(on: RunLoop.main)
+            .map { notification in }
+            .sink(receiveValue: { [weak self] _ in
+                self?.fetchEventsFromStore()
+                self?.modelChangedPublisher.send()
+            })
+            .store(in: &cancellables)
+    }
+    
     func fetchEventsFromStore() {
         do {
             try self.fetchedResultsController.performFetch()
@@ -90,34 +96,38 @@ class EventsTableModel: NSObject {
     
     //MARK:- Core Data Helper Functions
     func save(events: [Event]) {
-        guard let appDelegate =
-            UIApplication.shared.delegate as? AppDelegate else {
-                return
-        }
+//        guard let appDelegate =
+//            UIApplication.shared.delegate as? AppDelegate else {
+//                return
+//        }
+//
+//        let context = appDelegate.persistentContainer.viewContext
         
-        let context = appDelegate.persistentContainer.viewContext
+        let context = managedObjectContext
         
-        for event in events {
-            autoreleasepool {
-                guard let entity = NSEntityDescription.entity(forEntityName: "EventObject", in: context) else {
-                    return
+        context.perform {
+            for event in events {
+                autoreleasepool {
+                    guard let entity = NSEntityDescription.entity(forEntityName: "EventObject", in: context) else {
+                        return
+                    }
+                    
+                    let eventObj = NSManagedObject(entity: entity,
+                                                   insertInto: context)
+                    
+                    eventObj.setValue(event.title, forKeyPath: "title")
+                    eventObj.setValue(event.id, forKey: "id")
+                    eventObj.setValue(event.image, forKey: "image")
+                    eventObj.setValue(event.startDate, forKey: "startDate")
+                    eventObj.setValue(false, forKey: "favourited")
                 }
-                
-                let eventObj = NSManagedObject(entity: entity,
-                                               insertInto: context)
-                
-                eventObj.setValue(event.title, forKeyPath: "title")
-                eventObj.setValue(event.id, forKey: "id")
-                eventObj.setValue(event.image, forKey: "image")
-                eventObj.setValue(event.startDate, forKey: "startDate")
-                eventObj.setValue(false, forKey: "favourited")
             }
-        }
-        
-        do {
-            try context.save()
-        } catch let error as NSError {
-            print("Could not save. \(error), \(error.userInfo)")
+            
+            do {
+                try context.save()
+            } catch let error as NSError {
+                print("Could not save. \(error), \(error.userInfo)")
+            }
         }
     }
     
@@ -126,12 +136,7 @@ class EventsTableModel: NSObject {
             throw CoreDataError.fetchError
         }
         
-        guard let appDelegate =
-            UIApplication.shared.delegate as? AppDelegate else {
-                throw CoreDataError.fetchError
-        }
-        
-        let context = appDelegate.persistentContainer.viewContext
+        let context = managedObjectContext
         
         let fetchRequest: NSFetchRequest<EventObject> = EventObject.fetchRequest()
         let predicate = NSPredicate(format: "id == %@", eventID)
@@ -141,6 +146,7 @@ class EventsTableModel: NSObject {
         let fetchedObjects = try context.fetch(fetchRequest)
         
         guard fetchedObjects.count == 1, let object = fetchedObjects.first else {
+            print("Fetched objects: \(fetchedObjects.count)")
             throw CoreDataError.fetchError
         }
         

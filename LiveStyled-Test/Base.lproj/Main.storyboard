@@ -19,13 +19,7 @@
                             <outlet property="delegate" destination="P4A-uf-15b" id="oIk-fa-g40"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Events" id="tzM-UF-NmU">
-                        <barButtonItem key="rightBarButtonItem" image="square.and.arrow.down" catalog="system" id="odg-Ni-PFG">
-                            <connections>
-                                <action selector="downloadButtonPressed:" destination="P4A-uf-15b" id="RIJ-6v-qz9"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" title="Events" id="tzM-UF-NmU"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="g9k-Mb-4M8" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -50,7 +44,4 @@
             <point key="canvasLocation" x="15.942028985507248" y="146.65178571428569"/>
         </scene>
     </scenes>
-    <resources>
-        <image name="square.and.arrow.down" catalog="system" width="60" height="64"/>
-    </resources>
 </document>
