@@ -52,6 +52,7 @@ class EventsTableVC: UITableViewController {
     
     @objc private func favoriteButtonPressed(_ button: FavoriteButton) {
         button.isOn.toggle()
+        viewModel.changedFavourited(at: IndexPath(row: button.tag, section: 0), favourited: button.isOn)
     }
     
     //MARK:- Binding Methods
@@ -87,6 +88,7 @@ extension EventsTableVC {
             cell.titleLabel.text = viewModel.title(for: indexPath)
             cell.dateLabel.text = viewModel.date(for: indexPath)
             cell.favoriteButton.isOn = viewModel.isFavorited(at: indexPath)
+            cell.favoriteButton.tag = indexPath.row
             cell.favoriteButton.addTarget(self, action: #selector(favoriteButtonPressed(_:)), for: .touchUpInside)
         }
         

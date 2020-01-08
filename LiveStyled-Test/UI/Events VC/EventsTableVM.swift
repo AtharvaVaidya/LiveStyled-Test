@@ -69,6 +69,16 @@ class EventsTableVM {
         return event.favourited
     }
     
+    func changedFavourited(at indexPath: IndexPath, favourited: Bool) {
+        guard let event = model.event(at: indexPath) else {
+            return
+        }
+        
+        event.favourited = favourited
+        
+        model.update(event: event)
+    }
+    
     
     //MARK:- Network Functions
     func downloadAllEvents() {

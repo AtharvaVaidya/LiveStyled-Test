@@ -145,18 +145,26 @@
 			path = UI;
 			sourceTree = "<group>";
 		};
-		EC4B315223C3A74700203DE5 /* Network */ = {
+		EC1FF8D123C6204E0033D3C2 /* Request */ = {
 			isa = PBXGroup;
 			children = (
-				EC6CCF6523C3D28400D7E11D /* HTTPMethod.swift */,
-				EC6CCF6723C3D2EC00D7E11D /* NetworkError.swift */,
-				EC4B315023C3A74300203DE5 /* APIClient.swift */,
 				EC6CCF6123C3D22200D7E11D /* APIRequest.swift */,
 				EC6CCF6323C3D23500D7E11D /* EventsRequest.swift */,
 				EC0309F023C5312D00DCFAB7 /* ImageRequest.swift */,
+			);
+			path = Request;
+			sourceTree = "<group>";
+		};
+		EC4B315223C3A74700203DE5 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				EC6CCF5D23C3CFBD00D7E11D /* NetworkingAliases.swift */,
+				EC6CCF6523C3D28400D7E11D /* HTTPMethod.swift */,
+				EC6CCF6723C3D2EC00D7E11D /* NetworkError.swift */,
+				EC4B315023C3A74300203DE5 /* APIClient.swift */,
+				EC1FF8D123C6204E0033D3C2 /* Request */,
 				EC6CCF5F23C3D1CB00D7E11D /* APIEndPoint.swift */,
 				EC6CCF5B23C3CFB100D7E11D /* APIServiceConfig.swift */,
-				EC6CCF5D23C3CFBD00D7E11D /* NetworkingAliases.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";

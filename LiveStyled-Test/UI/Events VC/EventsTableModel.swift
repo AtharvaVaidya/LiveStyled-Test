@@ -120,6 +120,39 @@ class EventsTableModel: NSObject {
             print("Could not save. \(error), \(error.userInfo)")
         }
     }
+    
+    func update(event: EventObject) {
+        guard let appDelegate =
+            UIApplication.shared.delegate as? AppDelegate else {
+                return
+        }
+        
+        let context = appDelegate.persistentContainer.viewContext
+        
+        let fetchRequest: NSFetchRequest<EventObject> = EventObject.fetchRequest()
+        let predicate = NSPredicate(format: "id == %@", event.id ?? "")
+        
+        fetchRequest.predicate = predicate
+        
+        do {
+            let fetchedObjects = try context.fetch(fetchRequest)
+            
+            guard fetchedObjects.count == 1, let object = fetchedObjects.first else {
+                return
+            }
+            
+            object.title = event.title
+            object.id = event.title
+            object.image = event.image
+            object.imageData = event.imageData
+            object.favourited = event.favourited
+            object.startDate = event.startDate
+            
+            try context.save()
+        } catch let error as NSError {
+            print("Could not save. \(error), \(error.userInfo)")
+        }
+    }
 }
 
 extension EventsTableModel {
