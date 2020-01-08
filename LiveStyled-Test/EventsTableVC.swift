@@ -12,7 +12,7 @@ import Combine
 class EventsTableVC: UITableViewController {
     private let viewModel: EventsTableVM
     
-    var cancellables: Set<AnyCancellable> = []
+    private var cancellables: Set<AnyCancellable> = []
     
     //MARK:- Initializer Methods
     init?(coder: NSCoder, viewModel: EventsTableVM) {
@@ -41,21 +41,21 @@ class EventsTableVC: UITableViewController {
     }
     
     //MARK:- View Setup
-    func setupTableView() {
+    private func setupTableView() {
         tableView.register(EventTableViewCell.self, forCellReuseIdentifier: EventTableViewCell.identifier)
     }
     
     //MARK:- IBAction Methods
-    @IBAction func downloadButtonPressed(_ sender: UIBarButtonItem) {
+    @IBAction private func downloadButtonPressed(_ sender: UIBarButtonItem) {
         viewModel.downloadAllEvents()
     }
     
-    @objc func favoriteButtonPressed(_ button: FavoriteButton) {
+    @objc private func favoriteButtonPressed(_ button: FavoriteButton) {
         button.isOn.toggle()
     }
     
     //MARK:- Binding Methods
-    func bindToDataSource() {
+    private func bindToDataSource() {
         viewModel.modelUpdatedPublisher
         .receive(on: RunLoop.main)
         .sink { [unowned self] _ in
