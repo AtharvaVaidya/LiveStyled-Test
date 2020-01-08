@@ -66,7 +66,8 @@ class EventsTableVC: UITableViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         
         let constraints = [label.centerXAnchor.constraint(equalTo: emptyView.centerXAnchor),
-                           label.centerYAnchor.constraint(equalTo: emptyView.centerYAnchor)]
+                           label.centerYAnchor.constraint(equalTo: emptyView.centerYAnchor),
+                           label.widthAnchor.constraint(lessThanOrEqualTo: emptyView.widthAnchor, multiplier: 0.8)]
         
         NSLayoutConstraint.activate(constraints)
         
