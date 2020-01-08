@@ -27,6 +27,7 @@ class EventsTableVM {
         self.model = model
     }
     
+    //MARK:- Table View Data Source Methods
     func numberOfSections() -> Int {
         return 1
     }
@@ -61,7 +62,11 @@ class EventsTableVM {
     }
     
     func isFavorited(at indexPath: IndexPath) -> Bool {
-        return false
+        guard let event = model.event(at: indexPath) else {
+            return false
+        }
+        
+        return event.favourited
     }
     
     
@@ -107,7 +112,7 @@ class EventsTableVM {
         return nil
     }
     
-    func downloadImage(at indexPath: IndexPath) {
+    private func downloadImage(at indexPath: IndexPath) {
         guard let event = model.event(at: indexPath), let imageURLString = event.image else {
             return
         }
@@ -143,7 +148,7 @@ class EventsTableVM {
         .store(in: &cancellables)
     }
     
-    func handle(networkError: NetworkError) {
+    private func handle(networkError: NetworkError) {
         
     }
 }
