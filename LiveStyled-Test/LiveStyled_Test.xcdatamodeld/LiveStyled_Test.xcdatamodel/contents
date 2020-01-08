@@ -1,4 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="1" systemVersion="11A491" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithCloudKit="false" userDefinedModelVersionIdentifier="">
-    <elements/>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="15702" systemVersion="19C57" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="EventObject" representedClassName="EventObject" syncable="YES" codeGenerationType="class">
+        <attribute name="favourited" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="id" attributeType="String"/>
+        <attribute name="image" attributeType="String"/>
+        <attribute name="imageData" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES"/>
+        <attribute name="startDate" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="title" attributeType="String"/>
+    </entity>
+    <elements>
+        <element name="EventObject" positionX="-63" positionY="-18" width="128" height="133"/>
+    </elements>
 </model>
