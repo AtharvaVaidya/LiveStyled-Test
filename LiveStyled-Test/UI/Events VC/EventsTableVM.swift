@@ -23,8 +23,6 @@ class EventsTableVM {
         return model.modelChangedPublisher.eraseToAnyPublisher()
     }
     
-    let downloadEventsPublisher: PassthroughSubject<Void, Never> = PassthroughSubject<Void, Never>()
-    
     init(model: EventsTableModel) {
         self.model = model
     }
@@ -95,7 +93,7 @@ class EventsTableVM {
             
             switch error {
             case .failure(let error):
-                self.handle(networkError: error)
+                print("Error: \(error.localizedDescription)")
             case .finished:
                 self.currentRequestPage += 1
             }
@@ -156,9 +154,5 @@ class EventsTableVM {
             self.model.add(image: image, for: event)
         })
         .store(in: &cancellables)
-    }
-    
-    private func handle(networkError: NetworkError) {
-        
     }
 }
