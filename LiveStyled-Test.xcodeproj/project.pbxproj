@@ -157,14 +157,22 @@
 			path = Request;
 			sourceTree = "<group>";
 		};
-		EC4B315223C3A74700203DE5 /* Network */ = {
+		EC28ED4C23C63801006512F0 /* Model */ = {
 			isa = PBXGroup;
 			children = (
 				EC6CCF5D23C3CFBD00D7E11D /* NetworkingAliases.swift */,
 				EC6CCF6523C3D28400D7E11D /* HTTPMethod.swift */,
 				EC6CCF6723C3D2EC00D7E11D /* NetworkError.swift */,
-				EC4B315023C3A74300203DE5 /* APIClient.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		EC4B315223C3A74700203DE5 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				EC28ED4C23C63801006512F0 /* Model */,
 				EC1FF8D123C6204E0033D3C2 /* Request */,
+				EC4B315023C3A74300203DE5 /* APIClient.swift */,
 				EC6CCF5F23C3D1CB00D7E11D /* APIEndPoint.swift */,
 				EC6CCF5B23C3CFB100D7E11D /* APIServiceConfig.swift */,
 			);

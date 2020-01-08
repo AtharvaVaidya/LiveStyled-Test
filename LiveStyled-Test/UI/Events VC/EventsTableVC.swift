@@ -52,6 +52,33 @@ class EventsTableVC: UITableViewController {
         refreshControl?.addTarget(self, action: #selector(refresh), for: .valueChanged)
     }
     
+    private func addEmptyView() {
+        let label = UILabel()
+        let emptyView = UIView()
+        
+        emptyView.addSubview(label)
+        
+        label.text = "Pull to Download Events"
+        label.textColor = .label
+        label.font = .fontFor(textType: .headline)
+        label.textAlignment = .center
+        
+        label.translatesAutoresizingMaskIntoConstraints = false
+        
+        let constraints = [label.centerXAnchor.constraint(equalTo: emptyView.centerXAnchor),
+                           label.centerYAnchor.constraint(equalTo: emptyView.centerYAnchor)]
+        
+        NSLayoutConstraint.activate(constraints)
+        
+        tableView.backgroundView = emptyView
+        tableView.separatorStyle = .none
+    }
+    
+    private func removeEmptyView() {
+        tableView.backgroundView = nil
+        tableView.separatorStyle = .singleLine
+    }
+    
     //MARK:- IBAction Methods
     @objc private func favoriteButtonPressed(_ button: FavoriteButton) {
         do {
@@ -97,7 +124,15 @@ extension EventsTableVC {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.numberOfRows(in: section)
+        let numberOfRows = viewModel.numberOfRows(in: section)
+        
+        if numberOfRows == 0 {
+            addEmptyView()
+        } else {
+            removeEmptyView()
+        }
+        
+        return numberOfRows
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

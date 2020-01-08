@@ -13,6 +13,7 @@ extension UIFont {
         case label
         case secondaryLabel
         case button
+        case headline
     }
     
     static func fontFor(textType: TextType) -> UIFont {
@@ -25,6 +26,9 @@ extension UIFont {
             return font
         case .button:
             let font = UIFont.systemFont(ofSize: 16, weight: .regular).scaled(textStyle: .body)
+            return font
+        case .headline:
+            let font = UIFont.systemFont(ofSize: 22, weight: .bold).scaled(textStyle: .headline)
             return font
         }
     }
