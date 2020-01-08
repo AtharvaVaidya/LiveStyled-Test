@@ -114,6 +114,37 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		EC17FE4823C61FB2001BFEE8 /* Custom UI */ = {
+			isa = PBXGroup;
+			children = (
+				ECA5720323C3874800FF8206 /* UIFont+Extensions.swift */,
+				ECA5720123C3860C00FF8206 /* CircularImageView.swift */,
+				ECA5720523C38A3600FF8206 /* BooleanButton.swift */,
+				ECA5720723C38CB700FF8206 /* FavoriteButton.swift */,
+			);
+			path = "Custom UI";
+			sourceTree = "<group>";
+		};
+		EC17FE4923C61FBC001BFEE8 /* Events VC */ = {
+			isa = PBXGroup;
+			children = (
+				ECA571D023C3825200FF8206 /* EventsTableVC.swift */,
+				ECA5720923C3914A00FF8206 /* EventsTableVM.swift */,
+				ECA5720D23C3918200FF8206 /* EventsTableModel.swift */,
+				ECA571FF23C382D700FF8206 /* EventTableViewCell.swift */,
+			);
+			path = "Events VC";
+			sourceTree = "<group>";
+		};
+		EC17FE4A23C61FCB001BFEE8 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				EC17FE4823C61FB2001BFEE8 /* Custom UI */,
+				EC17FE4923C61FBC001BFEE8 /* Events VC */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
 		EC4B315223C3A74700203DE5 /* Network */ = {
 			isa = PBXGroup;
 			children = (
@@ -165,14 +196,7 @@
 				EC4B315323C3A75100203DE5 /* App Delegate */,
 				EC4B315223C3A74700203DE5 /* Network */,
 				ECA5721123C393A500FF8206 /* Model */,
-				ECA571D023C3825200FF8206 /* EventsTableVC.swift */,
-				ECA5720923C3914A00FF8206 /* EventsTableVM.swift */,
-				ECA5720D23C3918200FF8206 /* EventsTableModel.swift */,
-				ECA571FF23C382D700FF8206 /* EventTableViewCell.swift */,
-				ECA5720123C3860C00FF8206 /* CircularImageView.swift */,
-				ECA5720523C38A3600FF8206 /* BooleanButton.swift */,
-				ECA5720723C38CB700FF8206 /* FavoriteButton.swift */,
-				ECA5720323C3874800FF8206 /* UIFont+Extensions.swift */,
+				EC17FE4A23C61FCB001BFEE8 /* UI */,
 				ECA571D223C3825200FF8206 /* Main.storyboard */,
 				ECA571D823C3825300FF8206 /* Assets.xcassets */,
 				ECA571DA23C3825300FF8206 /* LaunchScreen.storyboard */,
