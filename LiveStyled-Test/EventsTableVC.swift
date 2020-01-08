@@ -10,14 +10,17 @@ import UIKit
 import Combine
 
 class EventsTableVC: UITableViewController {
-    let viewModel: EventsTableVM
+    private let viewModel: EventsTableVM
     
     var cancellables: Set<AnyCancellable> = []
     
+    //MARK:- Initializer Methods
     init?(coder: NSCoder, viewModel: EventsTableVM) {
         self.viewModel = viewModel
         
         super.init(coder: coder)
+        
+        bindToDataSource()
     }
     
     required init?(coder: NSCoder) {
@@ -26,14 +29,33 @@ class EventsTableVC: UITableViewController {
         self.viewModel = EventsTableVM(model: model)
         
         super.init(coder: coder)
+        
+        bindToDataSource()
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
+        setupTableView()
+    }
+    
+    //MARK:- View Setup
+    func setupTableView() {
         tableView.register(EventTableViewCell.self, forCellReuseIdentifier: EventTableViewCell.identifier)
-        
+    }
+    
+    //MARK:- IBAction Methods
+    @IBAction func downloadButtonPressed(_ sender: UIBarButtonItem) {
+        viewModel.downloadAllEvents()
+    }
+    
+    @objc func favoriteButtonPressed(_ button: FavoriteButton) {
+        button.isOn.toggle()
+    }
+    
+    //MARK:- Binding Methods
+    func bindToDataSource() {
         viewModel.modelUpdatedPublisher
         .receive(on: RunLoop.main)
         .sink { [unowned self] _ in
@@ -41,7 +63,10 @@ class EventsTableVC: UITableViewController {
         }
         .store(in: &cancellables)
     }
-    
+}
+
+extension EventsTableVC {
+    //MARK:- Table View Data Source
     override func numberOfSections(in tableView: UITableView) -> Int {
         return viewModel.numberOfSections()
     }
@@ -66,14 +91,6 @@ class EventsTableVC: UITableViewController {
         }
         
         return cell
-    }
-    
-    @IBAction func downloadButtonPressed(_ sender: UIBarButtonItem) {
-        viewModel.downloadAllEvents()
-    }
-    
-    @objc func favoriteButtonPressed(_ button: FavoriteButton) {
-        button.isOn.toggle()
     }
 }
 
