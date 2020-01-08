@@ -58,6 +58,7 @@
 		EC0309F023C5312D00DCFAB7 /* ImageRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageRequest.swift; sourceTree = "<group>"; };
 		EC17FE4623C6106D001BFEE8 /* UserDefaultsWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsWrapper.swift; sourceTree = "<group>"; };
 		EC1FF8D223C624DD0033D3C2 /* CoreDataError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataError.swift; sourceTree = "<group>"; };
+		EC31305E23C6497F007953E0 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		EC4B315023C3A74300203DE5 /* APIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClient.swift; sourceTree = "<group>"; };
 		EC6CCF5B23C3CFB100D7E11D /* APIServiceConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIServiceConfig.swift; sourceTree = "<group>"; };
 		EC6CCF5D23C3CFBD00D7E11D /* NetworkingAliases.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkingAliases.swift; sourceTree = "<group>"; };
@@ -192,6 +193,7 @@
 		ECA571C023C3825200FF8206 = {
 			isa = PBXGroup;
 			children = (
+				EC31305E23C6497F007953E0 /* README.md */,
 				ECA571CB23C3825200FF8206 /* LiveStyled-Test */,
 				ECA571E523C3825300FF8206 /* LiveStyled-TestTests */,
 				ECA571F023C3825300FF8206 /* LiveStyled-TestUITests */,
