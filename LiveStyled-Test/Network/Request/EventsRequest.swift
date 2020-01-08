@@ -9,7 +9,7 @@
 import Foundation
 
 class EventsRequest: APIRequest {
-    typealias Response = [Event]
+    typealias Response = [EventResponse]
     
     let endpoint: APIEndPoint
     let serviceConfig: APIServiceConfig

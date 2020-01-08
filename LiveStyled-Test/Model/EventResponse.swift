@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct Event: Codable, CustomStringConvertible {
+struct EventResponse: Codable, CustomStringConvertible {
     let id: String
     let title: String
     let image: String

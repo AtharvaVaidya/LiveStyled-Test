@@ -22,9 +22,9 @@ class EventsTableModel: NSObject {
         return container
     }()
     
-    private lazy var fetchedResultsController: NSFetchedResultsController<EventObject> = {
+    private lazy var fetchedResultsController: NSFetchedResultsController<Event> = {
         // Create Fetch Request
-        let fetchRequest: NSFetchRequest<EventObject> = EventObject.fetchRequest()
+        let fetchRequest: NSFetchRequest<Event> = Event.fetchRequest()
 
         // Configure Fetch Request
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "startDate", ascending: false)]
@@ -53,17 +53,17 @@ class EventsTableModel: NSObject {
         return fetchedResultsController.fetchedObjects?.count ?? 0
     }
     
-    func event(at indexPath: IndexPath) -> EventObject? {
+    func event(at indexPath: IndexPath) -> Event? {
         let eventObject = fetchedResultsController.object(at: indexPath)
         
         return eventObject
     }
     
-    func add(image: UIImage, for event: EventObject) {
+    func add(image: UIImage, for event: Event) {
         event.imageData = image.pngData()
         
         do {
-            try update(event: event)
+            try saveContext()
         } catch {
             print("Could not save image: \(error.localizedDescription)")
         }
@@ -88,27 +88,19 @@ class EventsTableModel: NSObject {
     func fetchEventsFromStore() {
         do {
             try self.fetchedResultsController.performFetch()
-            print("Fetch completed")
         } catch {
             print("Error fetching: \(error.localizedDescription)")
         }
     }
     
     //MARK:- Core Data Helper Functions
-    func save(events: [Event]) {
-//        guard let appDelegate =
-//            UIApplication.shared.delegate as? AppDelegate else {
-//                return
-//        }
-//
-//        let context = appDelegate.persistentContainer.viewContext
-        
+    func save(events: [EventResponse]) {        
         let context = managedObjectContext
         
         context.perform {
             for event in events {
                 autoreleasepool {
-                    guard let entity = NSEntityDescription.entity(forEntityName: "EventObject", in: context) else {
+                    guard let entity = NSEntityDescription.entity(forEntityName: "Event", in: context) else {
                         return
                     }
                     
@@ -128,36 +120,13 @@ class EventsTableModel: NSObject {
             } catch let error as NSError {
                 print("Could not save. \(error), \(error.userInfo)")
             }
+            
+            self.fetchEventsFromStore()
         }
     }
     
-    func update(event: EventObject) throws {
-        guard let eventID = event.id else {
-            throw CoreDataError.fetchError
-        }
-        
-        let context = managedObjectContext
-        
-        let fetchRequest: NSFetchRequest<EventObject> = EventObject.fetchRequest()
-        let predicate = NSPredicate(format: "id == %@", eventID)
-        
-        fetchRequest.predicate = predicate
-        
-        let fetchedObjects = try context.fetch(fetchRequest)
-        
-        guard fetchedObjects.count == 1, let object = fetchedObjects.first else {
-            print("Fetched objects: \(fetchedObjects.count)")
-            throw CoreDataError.fetchError
-        }
-        
-        object.title = event.title
-        object.id = event.title
-        object.image = event.image
-        object.imageData = event.imageData
-        object.favourited = event.favourited
-        object.startDate = event.startDate
-        
-        try context.save()
+    func saveContext() throws {
+        try managedObjectContext.save()
     }
 }
 

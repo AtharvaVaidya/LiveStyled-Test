@@ -34,7 +34,7 @@
 		ECA5720823C38CB700FF8206 /* FavoriteButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA5720723C38CB700FF8206 /* FavoriteButton.swift */; };
 		ECA5720A23C3914A00FF8206 /* EventsTableVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA5720923C3914A00FF8206 /* EventsTableVM.swift */; };
 		ECA5720E23C3918200FF8206 /* EventsTableModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA5720D23C3918200FF8206 /* EventsTableModel.swift */; };
-		ECA5721023C391A000FF8206 /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA5720F23C3919F00FF8206 /* Event.swift */; };
+		ECA5721023C391A000FF8206 /* EventResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA5720F23C3919F00FF8206 /* EventResponse.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -88,7 +88,7 @@
 		ECA5720723C38CB700FF8206 /* FavoriteButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteButton.swift; sourceTree = "<group>"; };
 		ECA5720923C3914A00FF8206 /* EventsTableVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsTableVM.swift; sourceTree = "<group>"; };
 		ECA5720D23C3918200FF8206 /* EventsTableModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsTableModel.swift; sourceTree = "<group>"; };
-		ECA5720F23C3919F00FF8206 /* Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
+		ECA5720F23C3919F00FF8206 /* EventResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventResponse.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -237,7 +237,7 @@
 		ECA5721123C393A500FF8206 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				ECA5720F23C3919F00FF8206 /* Event.swift */,
+				ECA5720F23C3919F00FF8206 /* EventResponse.swift */,
 				EC1FF8D223C624DD0033D3C2 /* CoreDataError.swift */,
 				EC17FE4623C6106D001BFEE8 /* UserDefaultsWrapper.swift */,
 			);
@@ -384,7 +384,7 @@
 				ECA5720223C3860C00FF8206 /* CircularImageView.swift in Sources */,
 				ECA5720623C38A3600FF8206 /* BooleanButton.swift in Sources */,
 				EC6CCF5C23C3CFB100D7E11D /* APIServiceConfig.swift in Sources */,
-				ECA5721023C391A000FF8206 /* Event.swift in Sources */,
+				ECA5721023C391A000FF8206 /* EventResponse.swift in Sources */,
 				ECA5720823C38CB700FF8206 /* FavoriteButton.swift in Sources */,
 				EC6CCF6823C3D2EC00D7E11D /* NetworkError.swift in Sources */,
 				EC6CCF6023C3D1CB00D7E11D /* APIEndPoint.swift in Sources */,

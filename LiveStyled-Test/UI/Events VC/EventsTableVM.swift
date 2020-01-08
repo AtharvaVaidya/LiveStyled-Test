@@ -76,7 +76,7 @@ class EventsTableVM {
         
         event.favourited = favourited
         
-        try model.update(event: event)
+        try model.saveContext()
     }
     
     
