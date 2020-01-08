@@ -38,11 +38,8 @@ class EventsTableVC: UITableViewController {
         .receive(on: RunLoop.main)
         .sink { [unowned self] _ in
             self.tableView?.reloadData()
-            self.refreshControl?.endRefreshing()
         }
         .store(in: &cancellables)
-        
-        addRefreshControl()
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -77,16 +74,6 @@ class EventsTableVC: UITableViewController {
     
     @objc func favoriteButtonPressed(_ button: FavoriteButton) {
         button.isOn.toggle()
-    }
-    
-    func addRefreshControl() {
-        refreshControl = UIRefreshControl()
-        refreshControl?.attributedTitle = NSAttributedString(string: "Pull to Refresh")
-        refreshControl?.addTarget(self, action: #selector(refresh(_:)), for: .valueChanged)
-    }
-    
-    @objc func refresh(_ sender: AnyObject) {
-        viewModel.downloadAllEvents()
     }
 }
 
