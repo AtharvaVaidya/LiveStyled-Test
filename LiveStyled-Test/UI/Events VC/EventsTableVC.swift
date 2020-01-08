@@ -51,8 +51,13 @@ class EventsTableVC: UITableViewController {
     }
     
     @objc private func favoriteButtonPressed(_ button: FavoriteButton) {
-        button.isOn.toggle()
-        viewModel.changedFavourited(at: IndexPath(row: button.tag, section: 0), favourited: button.isOn)
+        do {
+            let favourited = !button.isOn
+            try viewModel.changedFavourited(at: IndexPath(row: button.tag, section: 0), favourited: favourited)
+//            button.isOn.toggle()
+        } catch {
+            showAlert(title: "Error", message: "Could not save to database, please try again.")
+        }
     }
     
     //MARK:- Binding Methods
@@ -63,6 +68,18 @@ class EventsTableVC: UITableViewController {
             self.tableView?.reloadData()
         }
         .store(in: &cancellables)
+    }
+    
+    //MARK:- Error Handling Methods
+    func showAlert(title: String, message: String) {
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "OK", style: .default) { (action) in
+            alertController.dismiss(animated: true, completion: nil)
+        }
+        
+        alertController.addAction(okAction)
+        
+        present(alertController, animated: true, completion: nil)
     }
 }
 

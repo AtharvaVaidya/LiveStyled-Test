@@ -51,7 +51,7 @@ class EventsTableModel: NSObject {
             .receive(on: RunLoop.main)
             .map { notification in }
             .sink(receiveValue: { [weak self] _ in
-                self?.fetchEventsFromStore()
+//                self?.fetchEventsFromStore()
                 self?.modelChangedPublisher.send()
             })
             .store(in: &cancellables)
@@ -121,37 +121,37 @@ class EventsTableModel: NSObject {
         }
     }
     
-    func update(event: EventObject) {
+    func update(event: EventObject) throws {
+        guard let eventID = event.id else {
+            throw CoreDataError.fetchError
+        }
+        
         guard let appDelegate =
             UIApplication.shared.delegate as? AppDelegate else {
-                return
+                throw CoreDataError.fetchError
         }
         
         let context = appDelegate.persistentContainer.viewContext
         
         let fetchRequest: NSFetchRequest<EventObject> = EventObject.fetchRequest()
-        let predicate = NSPredicate(format: "id == %@", event.id ?? "")
+        let predicate = NSPredicate(format: "id == %@", eventID)
         
         fetchRequest.predicate = predicate
         
-        do {
-            let fetchedObjects = try context.fetch(fetchRequest)
-            
-            guard fetchedObjects.count == 1, let object = fetchedObjects.first else {
-                return
-            }
-            
-            object.title = event.title
-            object.id = event.title
-            object.image = event.image
-            object.imageData = event.imageData
-            object.favourited = event.favourited
-            object.startDate = event.startDate
-            
-            try context.save()
-        } catch let error as NSError {
-            print("Could not save. \(error), \(error.userInfo)")
+        let fetchedObjects = try context.fetch(fetchRequest)
+        
+        guard fetchedObjects.count == 1, let object = fetchedObjects.first else {
+            throw CoreDataError.fetchError
         }
+        
+        object.title = event.title
+        object.id = event.title
+        object.image = event.image
+        object.imageData = event.imageData
+        object.favourited = event.favourited
+        object.startDate = event.startDate
+        
+        try context.save()
     }
 }
 
