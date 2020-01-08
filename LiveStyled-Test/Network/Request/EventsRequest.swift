@@ -14,7 +14,7 @@ class EventsRequest: APIRequest {
     let endpoint: APIEndPoint
     let serviceConfig: APIServiceConfig
     
-    init(page: Int = 0) {
+    init(page: Int = 1) {
         self.endpoint = APIEndPoint(endpoint: "/events", paginated: .yes(page))
         self.serviceConfig = .defaultConfig
     }
