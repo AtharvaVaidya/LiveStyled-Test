@@ -163,6 +163,7 @@
 				EC6CCF5D23C3CFBD00D7E11D /* NetworkingAliases.swift */,
 				EC6CCF6523C3D28400D7E11D /* HTTPMethod.swift */,
 				EC6CCF6723C3D2EC00D7E11D /* NetworkError.swift */,
+				ECA5720F23C3919F00FF8206 /* EventResponse.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -245,7 +246,6 @@
 		ECA5721123C393A500FF8206 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				ECA5720F23C3919F00FF8206 /* EventResponse.swift */,
 				EC1FF8D223C624DD0033D3C2 /* CoreDataError.swift */,
 				EC17FE4623C6106D001BFEE8 /* UserDefaultsWrapper.swift */,
 			);

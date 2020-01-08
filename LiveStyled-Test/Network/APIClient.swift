@@ -17,7 +17,6 @@ class APIClient: APIClientProtocol {
         let urlRequest = request.urlRequest()
         
         let publisher = URLSession.shared.dataTaskPublisher(for: urlRequest)
-            .subscribe(on: DispatchQueue.global(qos: .default))
             .tryMap({ (data, response) -> Data in
                 guard let response = response as? HTTPURLResponse else {
                     print("Bad status code")
@@ -43,7 +42,6 @@ class APIClient: APIClientProtocol {
         let urlRequest = request.urlRequest()
         
         let publisher = URLSession.shared.dataTaskPublisher(for: urlRequest)
-            .subscribe(on: DispatchQueue.global(qos: .default))
             .retry(5)
             .tryMap { (data, response) -> Data in
                 guard let response = response as? HTTPURLResponse else {

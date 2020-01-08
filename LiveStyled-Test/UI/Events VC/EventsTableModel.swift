@@ -89,9 +89,23 @@ class EventsTableModel: NSObject {
     func save(events: [EventResponse]) {        
         let context = managedObjectContext
         
-        context.perform {
+        context.perform { [weak self] in
+            guard let self = self else {
+                return
+            }
+            
             for event in events {
                 autoreleasepool {
+                    //Just update the existing object if it already exists.
+                    if let existingObject = self.doesObjectExist(event: event) {
+                        existingObject.id = event.id
+                        existingObject.title = event.title
+                        existingObject.image = event.image
+                        existingObject.startDate = Int64(event.startDate)
+                        
+                        return
+                    }
+                    
                     guard let entity = NSEntityDescription.entity(forEntityName: "Event", in: context) else {
                         return
                     }
@@ -119,6 +133,24 @@ class EventsTableModel: NSObject {
     
     func saveContext() throws {
         try managedObjectContext.save()
+    }
+    
+    private func doesObjectExist(event: EventResponse) -> Event? {
+        let fetchRequest: NSFetchRequest<Event> = Event.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "id == %@", event.id)
+        do {
+            let fetchedObjects = try managedObjectContext.fetch(fetchRequest)
+            
+            if fetchedObjects.count > 0 {
+                return fetchedObjects[0]
+            } else {
+                return nil
+            }
+        } catch {
+            print("Error: \(error.localizedDescription)")
+        }
+        
+        return nil
     }
 }
 
