@@ -23,6 +23,8 @@ class EventsTableVM {
         return model.modelChangedPublisher.eraseToAnyPublisher()
     }
     
+    let downloadEventsPublisher: PassthroughSubject<Void, Never> = PassthroughSubject<Void, Never>()
+    
     init(model: EventsTableModel) {
         self.model = model
     }
@@ -86,26 +88,25 @@ class EventsTableVM {
         let publisher = apiClient.send(request: eventsRequest)
         
         publisher
-            .receive(on: RunLoop.main)
-            .sink(receiveCompletion: { [weak self] (error) in
-                guard let self = self else {
-                    return
-                }
-                
-                switch error {
-                case .failure(let error):
-                    self.handle(networkError: error)
-                case .finished:
-                    self.currentRequestPage += 1
-                }
-            }) { [weak self] (events) in
-                guard let self = self else {
-                    return
-                }
-                
-                self.model.save(events: events)
+        .sink(receiveCompletion: { [weak self] (error) in
+            guard let self = self else {
+                return
             }
-            .store(in: &cancellables)
+            
+            switch error {
+            case .failure(let error):
+                self.handle(networkError: error)
+            case .finished:
+                self.currentRequestPage += 1
+            }
+        }) { [weak self] (events) in
+            guard let self = self else {
+                return
+            }
+            
+            self.model.save(events: events)
+        }
+        .store(in: &cancellables)
     }
     
     func image(at indexPath: IndexPath) -> UIImage? {
@@ -145,7 +146,6 @@ class EventsTableVM {
             
             throw NetworkError.failedToParseImageData(data)
         }
-        .receive(on: RunLoop.main)
         .sink(receiveCompletion: { (result) in
             
         }, receiveValue: { [weak self] (image) in
