@@ -14,14 +14,6 @@ import CoreData
 class EventsTableModel: NSObject {
     var modelChangedPublisher = PassthroughSubject<Void, Never>()
     
-    private var persistentContainer: NSPersistentContainer = {
-        let container = NSPersistentContainer(name: "LiveStyled_Test")
-        
-        container.loadPersistentStores { (description, error) in }
-        
-        return container
-    }()
-    
     private lazy var fetchedResultsController: NSFetchedResultsController<Event> = {
         // Create Fetch Request
         let fetchRequest: NSFetchRequest<Event> = Event.fetchRequest()
@@ -30,7 +22,7 @@ class EventsTableModel: NSObject {
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "startDate", ascending: false)]
 
         // Create Fetched Results Controller
-        let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: self.persistentContainer.viewContext, sectionNameKeyPath: nil, cacheName: nil)
+        let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: self.managedObjectContext, sectionNameKeyPath: nil, cacheName: nil)
 
         // Configure Fetched Results Controller
         fetchedResultsController.delegate = self
